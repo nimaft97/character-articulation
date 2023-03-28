@@ -1,6 +1,7 @@
 #ifndef IK_SIM_H
 #define IK_SIM_H
 
+#include "Eigen/Dense"
 #include <GLModel/GLModel.h>
 #include <shared/defs.h>
 #include <util/util.h>
@@ -32,24 +33,15 @@ public:
 
 private:
 	void InitializePoints();
-	glm::dvec3 NextPoint(int idx, double t);
+	Eigen::Vector3d NextPoint(int idx, double t);
+	void UpdateThetas(const std::vector<double>& delta_theta);
 
 private:
 	double m_epsilon = 0.001;
-	glm::dvec3 m_point_current;
-	glm::dvec3 m_point_target;
+	Eigen::Vector3d m_point_current;
+	Eigen::Vector3d m_point_target;
 	double m_spline_delta_time;
-	double m_k = 0.1;
-	// shoulder
-	double m_theta1;
-	double m_theta2;
-	double m_theta3;
-	// elbow
-	double m_theta4;
-	double m_theta5;
-	// wrist
-	double m_theta6;
-	double m_theta7;
+	double m_k = 1.0; // since we are using intermediate points from the hermite spline which are close enough
 
 protected:
 	BobSystem* m_object;

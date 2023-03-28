@@ -134,7 +134,7 @@ int HermiteSplineSystem::command(int argc, myCONST_SPEC char** argv)
 			double p1 = std::stod(argv[2]), p2 = std::stod(argv[3]), p3 = std::stod(argv[4]);
 			double t1 = std::stod(argv[5]), t2 = std::stod(argv[6]), t3 = std::stod(argv[7]);
 			if (strcmp(argv[1], "point") == 0) {
-				if (numPoints < 40) {
+				if (numPoints < 40000) {
 					points.push_back({ p1, p2, p3 });
 					tangents.push_back({ t1, t2, t3 });
 					numPoints++;

@@ -5,14 +5,15 @@
 
 struct Solver {
 public:
-	Solver(Eigen::MatrixXd jacobian, glm::dvec3 dx);
+	Solver(Eigen::MatrixXd jacobian, Eigen::Vector3d dx);
+	std::vector<double> CalculateDeltaTheta();
 private:
-
+	Eigen::Vector3d SolveBeta();
 
 public:
 
 private:
-	glm::dvec3 m_dx;
+	Eigen::VectorXd m_dx;
 	Eigen::MatrixXd m_jacobian;
 };
 

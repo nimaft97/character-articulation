@@ -7,33 +7,35 @@
 
 struct Jacobian {
 public:
-	Jacobian(glm::dvec4 point,
+	Jacobian(Eigen::Vector4d point,
 		double theta1, double theta2, double theta3, double theta4, double theta5, double theta6, double theta7,
 		double l1, double l2, double l3);
 
 private:
-	glm::dvec4 RollX(double theta, glm::dvec4 point); // rotation along x
-	glm::dvec4 RollY(double theta, glm::dvec4 point); // rotation along y
-	glm::dvec4 RollZ(double theta, glm::dvec4 point); // rotation along z
+	Eigen::Vector4d RollX(double theta, const Eigen::Vector4d& point); // rotation along x
+	Eigen::Vector4d RollY(double theta, const Eigen::Vector4d& point); // rotation along y
+	Eigen::Vector4d RollZ(double theta, const Eigen::Vector4d& point); // rotation along z
 
-	glm::dvec4 RollXDerivative(double theta, glm::dvec4 point); // derivative of rotation along x
-	glm::dvec4 RollYDerivative(double theta, glm::dvec4 point); // derivative of rotation along y
-	glm::dvec4 RollZDerivative(double theta, glm::dvec4 point); // derivative of rotation along z
+	Eigen::Vector4d RollXDerivative(double theta, const Eigen::Vector4d& point); // derivative of rotation along x
+	Eigen::Vector4d RollYDerivative(double theta, const Eigen::Vector4d& point); // derivative of rotation along y
+	Eigen::Vector4d RollZDerivative(double theta, const Eigen::Vector4d& point); // derivative of rotation along z
 
-	glm::dvec3 DerivativeTheta1(glm::dvec4 point); // first column of Jacobian matrix (3x1)
-	glm::dvec3 DerivativeTheta2(glm::dvec4 point); // second column of Jacobian matrix (3x1)
-	glm::dvec3 DerivativeTheta3(glm::dvec4 point); // third column of Jacobian matrix (3x1)
-	glm::dvec3 DerivativeTheta4(glm::dvec4 point); // fourth column of Jacobian matrix (3x1)
-	glm::dvec3 DerivativeTheta5(glm::dvec4 point); // fifth column of Jacobian matrix (3x1)
-	glm::dvec3 DerivativeTheta6(glm::dvec4 point); // sixth column of Jacobian matrix (3x1)
-	glm::dvec3 DerivativeTheta7(glm::dvec4 point); // seventh column of Jacobian matrix (3x1)
+	Eigen::Vector3d DerivativeTheta1(const Eigen::Vector4d& point); // first column of Jacobian matrix (3x1)
+	Eigen::Vector3d DerivativeTheta2(const Eigen::Vector4d& point); // second column of Jacobian matrix (3x1)
+	Eigen::Vector3d DerivativeTheta3(const Eigen::Vector4d& point); // third column of Jacobian matrix (3x1)
+	Eigen::Vector3d DerivativeTheta4(const Eigen::Vector4d& point); // fourth column of Jacobian matrix (3x1)
+	Eigen::Vector3d DerivativeTheta5(const Eigen::Vector4d& point); // fifth column of Jacobian matrix (3x1)
+	Eigen::Vector3d DerivativeTheta6(const Eigen::Vector4d& point); // sixth column of Jacobian matrix (3x1)
+	Eigen::Vector3d DerivativeTheta7(const Eigen::Vector4d& point); // seventh column of Jacobian matrix (3x1)
+
+	double degree2radian(double d);
 
 public:
 	Eigen::MatrixXd m_jacobian; // 3 x 7
 	
 private:
 	// point
-	glm::dvec4 m_point;
+	Eigen::Vector4d m_point;
 	// shoulder
 	double m_theta1;
 	double m_theta2;
@@ -49,10 +51,10 @@ private:
 	double m_length_elbow_to_wrist;
 	double m_length_wrist_to_finger;
 	// translation matrices
-	glm::dmat4x4 m_transformation_root;
-	glm::dmat4x4 m_transformation_shoulder;
-	glm::dmat4x4 m_transformation_elbow;
-	glm::dmat4x4 m_transformation_wrist;
+	Eigen::Matrix4d m_transformation_root;
+	Eigen::Matrix4d m_transformation_shoulder;
+	Eigen::Matrix4d m_transformation_elbow;
+	Eigen::Matrix4d m_transformation_wrist;
 };
 
 #endif

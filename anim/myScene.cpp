@@ -7,6 +7,7 @@
 #endif
 
 
+#include "IKSim.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -22,7 +23,6 @@
 #include "animTcl.h"
 #include "myScene.h"
 #include "BobSystem.h"
-#include "IKSim.h"
 //#include <util/jama/tnt_stopwatch.h>
 //#include <util/jama/jama_lu.h>
 

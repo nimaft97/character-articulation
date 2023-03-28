@@ -106,6 +106,8 @@
     <ClCompile Include="IKSim.cpp" />
     <ClCompile Include="BobSystem.cpp" />
     <ClCompile Include="BaseSystem.cpp" />
+    <ClCompile Include="Solver.cpp" />
+    <ClCompile Include="Transformation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseSystem.h" />
@@ -114,12 +116,15 @@
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BaseSimulator.h" />
     <ClInclude Include="GlobalResourceManager.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="HermiteSystem.h" />
     <ClInclude Include="Jacobian.h" />
     <ClInclude Include="myScene.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="IKSim.h" />
     <ClInclude Include="BobSystem.h" />
+    <ClInclude Include="Solver.h" />
+    <ClInclude Include="Transformation.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GLModel\GLModel.vcxproj">

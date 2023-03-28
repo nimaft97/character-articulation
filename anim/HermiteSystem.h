@@ -43,7 +43,7 @@ public:
 
 public:
 	int numPoints;
-	double deltaT = 0.001;
+	double deltaT = 0.1;
 	std::vector<std::vector<double>> points, tangents;
 	std::vector<double> idx2u, idx2length;
 

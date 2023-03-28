@@ -31,22 +31,36 @@ public:
 	void displayClassroom(GLenum mode = GL_RENDER);
 	void displayFixedPartsOfBody(GLenum mode = GL_RENDER);
 	void displayRightHand(GLenum mode = GL_RENDER);
+	void displayDot(double x, double y, double z);
 	void display( GLenum mode = GL_RENDER );
 
 	void readModel(char *fname) { m_model.ReadOBJ(fname); }
 	void flipNormals(void) { glmReverseWinding(&m_model); }
-	int command(int argc, myCONST_SPEC char **argv) ;
+	int command(int argc, myCONST_SPEC char **argv);
+
+private:
+	void InitializeThetas();
+
 public:
 	HermiteSplineSystem* hermiteSystem = new HermiteSplineSystem("hermite");
 	bool m_spline_is_loaded = false;
-
-public:
-	double l1_length = 3.0, l2_length = 3.0, l3_length = 1.0; // arm consists of L1 (shoulder to elbow), L2 (elbow to wrist), and L3 (wrist to finger)
-
+	double l1_length = 2.0, l2_length = 2.0, l3_length = 0.5; // arm consists of L1 (shoulder to elbow), L2 (elbow to wrist), and L3 (wrist to finger)
+	// shoulder
+	double m_theta1;
+	double m_theta2;
+	double m_theta3;
+	// elbow
+	double m_theta4;
+	double m_theta5;
+	// wrist
+	double m_theta6;
+	double m_theta7;
+	// test
+	double test1, test2, test3;
 protected:
 
 	// define parameters for drawings
-	double width_coefficient = 0.3;
+	double width_coefficient = 0.4;
 	double blackboard_width = 12.0, blackboard_height = 8.0;
 	double z_distance = 3.0;
 	double l1_width = width_coefficient * l1_length, l2_width = width_coefficient * l2_length, l3_width = width_coefficient * l3_length;

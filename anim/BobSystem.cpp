@@ -3,7 +3,7 @@
 BobSystem::BobSystem( const std::string& name ):
 	BaseSystem( name )
 { 
-	
+	InitializeThetas();
 }	// BobSystem
 
 void BobSystem::getState( double* p )
@@ -58,6 +58,16 @@ int BobSystem::command(int argc, myCONST_SPEC char **argv)
 
 }	// BobSystem::command
 
+void BobSystem::InitializeThetas() {
+	m_theta1 = 0.0;
+	m_theta2 = 0.0;
+	m_theta3 = 20.0;
+	m_theta4 = 20.0;
+	m_theta5 = 20.0;
+	m_theta6 = 0.0;
+	m_theta7 = 0.0;
+}
+
 void BobSystem::displayClassroom(GLenum)
 {
 	// draw the classroom
@@ -83,6 +93,7 @@ void BobSystem::displayClassroom(GLenum)
 	glPopMatrix();
 
 	// wall
+	glPushMatrix(); // added
 	glScaled(wall_width, wall_height, 0.5);
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3f(1.0, 1.0, 1.0);
@@ -218,43 +229,61 @@ void BobSystem::displayRightHand(GLenum mode)
 {
 	// draw the character (Bob)
 	glPushMatrix();
-	glTranslated(0.0, 0.0, z_distance);
 	
 	// right: arm and hand
 	glPushMatrix();
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3f(0.0, 1.0, 0.0);
 
-	glTranslated(torso_width/2.0, 0.0, 0.0);
-
-	//rotation
-	glTranslated(l1_length/2.0, torso_height/2.0, 0.0);
-	glRotated(90, 0.0, 0.0, 1.0);
+	glTranslated(torso_width/2.0, torso_height/2.0, z_distance);
 
 	// shoulder to elbow
-	glPushMatrix();
-	glScaled(l1_width / 2, l1_length, 1);
-	GLdrawCircle(0.5, 500);
-	glPopMatrix(); // shoulder to elbow
+	glRotated(m_theta1, 1.0, 0.0, 0.0);
+	glRotated(m_theta2, 0.0, 1.0, 0.0);
+	glRotated(m_theta3, 0.0, 0.0, 1.0);
+	
 
 	// elbow to wrist
-	glTranslated(0.0, -(l1_length + l2_length) / 2.0, 0.0);
 	glPushMatrix();
+	glTranslated(0.0, -l1_length, 0.0);
+	glRotated(m_theta4, 1.0, 0.0, 0.0);
+	glRotated(m_theta5, 0.0, 1.0, 0.0);
+	
+	
+	// wrist to finger
+	glPushMatrix();
+	glTranslated(0.0, -l2_length, 0.0);
+	glRotated(m_theta6, 1.0, 0.0, 0.0);
+	glRotated(m_theta7, 0.0, 1.0, 0.0);
+	glTranslated(0.0, -l3_length/2.0, 0.0);
+	
+	glScaled(l3_width / 2.0, l3_length, 1);
+	GLdrawCircle(0.5, 500);
+	glPopMatrix(); // wrist to finger
+
+	glTranslated(0.0, -l2_length / 2.0, 0.0);
 	glScaled(l2_width / 2.0, l2_length, 1);
 	GLdrawCircle(0.5, 500);
 	glPopMatrix(); // elbow to wrist
 
-	// wrist to finger
-	glTranslated(0.0, -(l2_length + l3_length) / 2.0, 0.0);
-	glPushMatrix();
-	glScaled(l3_width / 2.0, l3_length, 1);
+	glTranslated(0.0, -l1_length / 2.0, 0.0);
+	glScaled(l1_width / 2.0, l1_length, 1);
 	GLdrawCircle(0.5, 500);
-	glPopMatrix(); // elbow to wrist
+	glPopMatrix(); // shoulder to elbow
 
 
-	glPopMatrix(); // left: arm and hand
+	glPopMatrix(); // right: arm and hand
+}
 
-	glPopMatrix(); // Bob
+void BobSystem::displayDot(double x, double y, double z)
+{
+	glPushMatrix();
+	glTranslated(x, y, z);
+	glScaled(0.1, 0.1, 0.1);
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(1.0, 0.0, 0.0);
+	glutSolidCube(1);
+	glPopMatrix();
 }
 
 void BobSystem::display( GLenum mode )
@@ -268,6 +297,21 @@ void BobSystem::display( GLenum mode )
 	// push rotation
 	glPushMatrix();
 	glRotated(45.0, 0.0, 1.0, 0.0);
+
+	displayDot(torso_width / 2.0, torso_height / 2.0, z_distance);
+	animTcl::OutputMessage(
+		"shoulder: %f, %f, %f\n", torso_width / 2.0, torso_height / 2.0, z_distance);
+
+	if (m_spline_is_loaded)
+	{
+		// test
+		glEnable(GL_COLOR_MATERIAL);
+		glColor3f(1.0, 0.0, 0.0);
+		animTcl::OutputMessage(
+			"vertices are: %f, %f, %f\n", test1, test2, test3);
+		displayDot(test1, test2, test3);
+	}
+
 	// fixed parts of Bob
 	displayFixedPartsOfBody(mode);
 	// right hand
@@ -279,7 +323,7 @@ void BobSystem::display( GLenum mode )
 	{
 		glPushMatrix();
 		glTranslated(0.0, 0.0, 1.0);
-		glRotated(45, 0.0, 1.0, 0.0);
+		//glRotated(45, 0.0, 1.0, 0.0);
 		hermiteSystem->display(mode);
 		glPopMatrix();
 	}
@@ -288,5 +332,6 @@ void BobSystem::display( GLenum mode )
 
 
 	glPopAttrib();
+	glPopMatrix();
 
 }	// BobSystem::display

@@ -1,6 +1,3 @@
 ﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  myScene.cpp
-  IKSim.cpp
   BobSystem.cpp
-  Generating Code...
   anim.vcxproj -> C:\Users\nimaf\OneDrive\Desktop\IE\Master\courses\CSC586D\Assignment3\Build\anim.exe
